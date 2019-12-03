@@ -11,32 +11,26 @@ for wire in wires:
     for instruction in wire:
         direction = instruction[0]
         length = int(instruction[1:])
+        steps = range(length)
         if direction == 'R':
-            for _ in range(length):
-                curr_x += 1
-                wire_coords.append((curr_x, curr_y))
+            path = list(map(lambda i: (curr_x + i + 1, curr_y), steps))
+            curr_x += length
         elif direction == 'L':
-            for _ in range(length):
-                curr_x -= 1
-                wire_coords.append((curr_x, curr_y))
+            path = list(map(lambda i: (curr_x - i - 1, curr_y), steps))
+            curr_x -= length
         elif direction == 'U':
-            for _ in range(length):
-                curr_y += 1
-                wire_coords.append((curr_x, curr_y))
+            path = list(map(lambda i: (curr_x, curr_y + i + 1), steps))
+            curr_y += length
         elif direction == 'D':
-            for _ in range(length):
-                curr_y -= 1
-                wire_coords.append((curr_x, curr_y))
+            path = list(map(lambda i: (curr_x, curr_y - i - 1), steps))
+            curr_y -= length
+        wire_coords.extend(path)
     coords.append(wire_coords)
 
-intersections = list(map(
-    lambda c: (c, abs(c[0]) + abs(c[1])),
-    set(coords[0]).intersection(coords[1])
-))
-print('Part 1:', min(intersections, key=lambda c: c[1])[1])
+intersections = set(coords[0]).intersection(coords[1])
 
-position_steps = [
-    coords[0].index(intersection[0]) + coords[1].index(intersection[0]) + 2
-    for intersection in intersections
-]
-print('Part 2:', min(position_steps))
+print('Part 1:', min(map(lambda i: abs(i[0]) + abs(i[1]), intersections)))
+print('Part 2:', min(map(
+    lambda i: coords[0].index(i) + coords[1].index(i) + 2,
+    intersections
+)))
