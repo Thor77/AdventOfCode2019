@@ -3,13 +3,13 @@ import collections
 
 def is_valid(pw):
     pw_str = str(pw)
-    if collections.Counter(pw_str).most_common(1)[0][1] < 2:
-        return False
     for i, c in enumerate(pw_str):
         if i == 0:
             continue
         if int(c) < int(pw_str[i - 1]):
             return False
+    if collections.Counter(pw_str).most_common(1)[0][1] < 2:
+        return False
     return True
 
 
