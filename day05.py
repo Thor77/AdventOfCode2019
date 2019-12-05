@@ -46,16 +46,10 @@ def calculate(instructions, controller_id):
             i += 2
         elif opcode == 5:
             o1, o2 = list(get_parameters(i + 1, 2, modes, instructions))
-            if o1 != 0:
-                i = o2
-            else:
-                i += 3
+            i = o2 if o1 != 0 else i + 3
         elif opcode == 6:
             o1, o2 = list(get_parameters(i + 1, 2, modes, instructions))
-            if o1 == 0:
-                i = o2
-            else:
-                i += 3
+            i = o2 if o1 == 0 else i + 3
         elif opcode == 7:
             o1, o2 = list(get_parameters(i + 1, 2, modes, instructions))
             instructions[instructions[i + 3]] = 1 if o1 < o2 else 0
