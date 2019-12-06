@@ -1,8 +1,8 @@
-def path_length(orbits, key, steps=0):
+def path_length(orbits, key, steps=0, path=[]):
     if key in orbits:
-        return path_length(orbits, orbits[key], steps + 1)
+        return path_length(orbits, orbits[key], steps + 1, path + [key])
     else:
-        return steps
+        return steps, path
 
 
 if __name__ == '__main__':
@@ -13,13 +13,21 @@ if __name__ == '__main__':
     orbits = {}
     for statement in map_data:
         o1, o2 = statement.split(')')
-        if o2 in orbits:
-            raise 'This shouldn\'t happen'
         orbits[o2] = o1
 
     total = 0
     for key in orbits.keys():
-        length = path_length(orbits, key)
+        length, path = path_length(orbits, key)
         total += length
 
     print('Part 1:', total)
+
+    # find start and end object
+    start = orbits['YOU']
+    end = orbits['SAN']
+    _, start_path = path_length(orbits, start)
+    _, end_path = path_length(orbits, end)
+    for i, obj in enumerate(start_path):
+        if obj in end_path:
+            print('Part 2:', i + end_path.index(obj))
+            break
