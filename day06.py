@@ -1,8 +1,9 @@
-def find_path(orbits, key, path=[]):
-    if key in orbits:
-        return find_path(orbits, orbits[key], path + [key])
-    else:
-        return path
+def find_path(orbits, key):
+    path = []
+    while key in orbits:
+        path.append(key)
+        key = orbits[key]
+    return path
 
 
 if __name__ == '__main__':
