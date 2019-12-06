@@ -1,24 +1,25 @@
-def path_length(objects, key):
-    if key in objects:
-        for connection in objects.get(key, []):
-            return 1 + path_length(objects, connection)
+def path_length(orbits, key, steps=0):
+    if key in orbits:
+        return path_length(orbits, orbits[key], steps + 1)
     else:
-        return 1
+        return steps
 
 
-map_data = []
-with open('inputs/06') as f:
-    map_data = f.read().splitlines()
+if __name__ == '__main__':
+    map_data = []
+    with open('inputs/06') as f:
+        map_data = f.read().splitlines()
 
-objects = {}
-for statement in map_data:
-    o1, o2 = statement.split(')')
-    objects.setdefault(o1, []).append(o2)
+    orbits = {}
+    for statement in map_data:
+        o1, o2 = statement.split(')')
+        if o2 in orbits:
+            raise 'This shouldn\'t happen'
+        orbits[o2] = o1
 
-i = 0
-for key in objects.keys():
-    result = path_length(objects, key)
-    print(result)
-    i += result
+    total = 0
+    for key in orbits.keys():
+        length = path_length(orbits, key)
+        total += length
 
-print(i, objects)
+    print('Part 1:', total)
