@@ -34,7 +34,7 @@ for layer in layers[1:]:
         else:
             image[i] = pixel
 
-m = {'0': '#', '1': ' ', '2': ' '}
+m = {'0': ' ', '1': '#', '2': ' '}
 i = 0
 for pixel in image:
     print(m[pixel], end='')
